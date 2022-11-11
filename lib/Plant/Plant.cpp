@@ -23,7 +23,7 @@ void Plant::setDrainBetweenWatering(bool YN) {
 }
 
 void Plant::update() {
-    if (millis()%60000 == 0) {
+    if (millis()%(60*60*1000) == 0) {
         logWater();
     }
     if (millis()%waterIntervalDays*24*60*60*1000 == 0) {
