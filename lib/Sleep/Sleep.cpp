@@ -16,6 +16,7 @@ Sleep::Sleep() {
     pinMode(WIO_LIGHT, INPUT);
     File file = SD.open("Sleep Data.csv", FILE_WRITE);
     file.println("time, temp, light, movement, sound");
+    file.close();
     light.begin();
     temp.begin();
     temp.setPrecision(SHT4X_MED_PRECISION);
