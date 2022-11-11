@@ -9,11 +9,11 @@ class Plant {
         void update();
         void setWaterIntervalDays(int interval);
         void setDrainBetweenWatering(bool YN);
+        void water();
+        void drain();
     private:
         int waterIntervalDays;
         bool drainBetweenWatering;
-        void water();
-        void drain();
         void logWater();
         void notifyResivoirLow();
         bool plantWaterLow();

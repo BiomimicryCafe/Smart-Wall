@@ -4,6 +4,9 @@
 #include <SPI.h>
 #include <Seeed_FS.h>
 #include "SD/Seeed_SD.h"
+#include "Waterer.h"
+
+Waterer waterer;
 
 Plant::Plant() {
     File file = SD.open("Plant Data.csv", FILE_WRITE);
@@ -35,11 +38,15 @@ void Plant::update() {
 }
 
 void Plant::water() {
-
+    waterer.startWater();
+    delay(30000);
+    waterer.stopWater();
 }
 
 void Plant::drain() {
-
+    waterer.startDrain();
+    delay(30000);
+    waterer.stopDrain();
 }
 
 void Plant::logWater() {
