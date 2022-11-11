@@ -16,8 +16,8 @@ class Plant {
         bool drainBetweenWatering;
         void saveData(string dataString);
         void logWater();
-        void notifyResivoirLow();
+        void notifyReservoirLow();
         bool plantWaterLow();
-        bool resivoirLow();
+        bool reservoirLow();
 };
 #endif
