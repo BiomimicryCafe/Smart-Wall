@@ -14,6 +14,7 @@ class Plant {
     private:
         int waterIntervalDays;
         bool drainBetweenWatering;
+        void saveData(string dataString);
         void logWater();
         void notifyResivoirLow();
         bool plantWaterLow();
