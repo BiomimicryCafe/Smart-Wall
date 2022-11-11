@@ -10,7 +10,7 @@ Waterer waterer;
 
 Plant::Plant() {
     File file = SD.open("Plant Data.csv", FILE_WRITE);
-    file.println("time, resivoirWater, plantWaterAvg, didWater, didDrain");
+    file.println("time, reservoirWater, plantWaterAvg, didWater, didDrain");
     file.close();
 }
 
@@ -64,10 +64,10 @@ bool Plant::plantWaterLow() {
 
 }
 
-void Plant::notifyResivoirLow() {
+void Plant::notifyReservoirLow() {
 
 }
 
-bool Plant::resivoirLow(){
+bool Plant::reservoirLow(){
 
 }
