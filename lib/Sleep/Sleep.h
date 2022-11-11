@@ -16,6 +16,7 @@ class Sleep {
         void logMovement();
         void logSound();
         void LogManualWakeEvent();
+        void saveData(String dataString);
 };
 
 #endif

@@ -5,12 +5,22 @@
 #include <Seeed_FS.h>
 #include "SD/Seeed_SD.h"
 #include <TimeLib.h>
+#include <Adafruit_TSL2591.h>
+#include <Adafruit_SHT4x.h>
+Adafruit_TSL2591 light = Adafruit_TSL2591(2591);
+Adafruit_SHT4x temp = Adafruit_SHT4x();
 
 Sleep::Sleep() {
     silenceLevel = getSoundLevel();
     pinMode(WIO_MIC, INPUT);
+    pinMode(WIO_LIGHT, INPUT);
     File file = SD.open("Sleep Data.csv", FILE_WRITE);
     file.println("time, temp, light, movement, sound");
+    light.begin();
+    temp.begin();
+    temp.setPrecision(SHT4X_MED_PRECISION);
+    light.setTiming(TSL2591_INTEGRATIONTIME_600MS);
+    light.setGain(TSL2591_GAIN_MED);
 }
 
 void Sleep::update() {
@@ -36,15 +46,23 @@ bool Sleep::movementDetected() {
 }
 
 int Sleep::getTemperature() {
-
+    sensors_event_t humidity, temperature;
+    temp.getEvent(&humidity, &temperature);
+    return temperature.temperature;
 }
 
 int Sleep::getLightLevel() {
-
+    return light.getLuminosity(TSL2591_VISIBLE);
 }
 
 int Sleep::getSoundLevel() {
     return analogRead(WIO_MIC);
+}
+
+void Sleep::saveData(String dataString){
+    File file = SD.open("Sleep Data.csv", FILE_APPEND);
+    file.println(dataString);
+    file.close();
 }
 
 void Sleep::LogManualWakeEvent() {
@@ -65,8 +83,3 @@ void Sleep::log() {
     );
 }
 
-void saveData(String dataString){
-    File file = SD.open("Sleep Data.csv", FILE_APPEND);
-    file.println(dataString);
-    file.close();
-}
