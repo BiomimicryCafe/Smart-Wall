@@ -11,6 +11,7 @@ Waterer waterer;
 Plant::Plant() {
     File file = SD.open("Plant Data.csv", FILE_WRITE);
     file.println("time, resivoirWater, plantWaterAvg, didWater, didDrain");
+    file.close();
 }
 
 void Plant::setWaterIntervalDays(int interval) {
@@ -35,6 +36,12 @@ void Plant::update() {
             notifyResivoirLow();
         }
     }
+}
+
+void Plant::saveData(String dataString){
+    File file = SD.open("Plant Data.csv", FILE_APPEND);
+    file.println(dataString);
+    file.close();
 }
 
 void Plant::water() {
