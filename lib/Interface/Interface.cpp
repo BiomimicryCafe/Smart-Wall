@@ -25,17 +25,25 @@ void Interface::showPlantStatsAll() {
     // readSDfile can be used as conditional, it returns 'false' if the file does not exist.
     if (cp.readSDfile("/Plant Data.csv")) {
         int *plantTimeData = (int*)cp["time"];
-        int *plantResivoirWaterData = (int*)cp["resivoirWater"];
-        int *plantDidWater = (int*)cp["didWater"];
-        int *plantDidDrain = (int*)cp["didDrain"];
-        int *plantWaterLevel = (int*)cp["plantWaterAvg"];
+        int *plantReservoirWaterData = (int*)cp["reservoirWater"];
+        int *plantDidWaterData = (int*)cp["didWater"];
+        int *plantDidDrainData = (int*)cp["didDrain"];
+        int *plantWaterLevelData = (int*)cp["plantWaterAvg"];
         doubles plantTime;
+        doubles plantWaterLevel;
+        doubles plantReservoirWaterData;
         while (plantTime.size() <= plant_data_max_size) {
             plantTime.push(plantTimeData[(sizeof(plantTimeData) - plantTime.size())]); //I mean this might work, it might be backwards
         }
-
+        while (plantWaterLevel.size() <= plant_data_max_size) {
+            plantWaterLevel.push(plantWaterLevelData[(sizeof(plantWaterLevelData) - plantWaterLevel.size())]); //I mean this might work, it might be backwards
+        }
+        while (plantReservoirWater.size() <= plant_data_max_size) {
+            plantReservoirWater.push(plantReservoirWaterData[(sizeof(plantReservoirWaterData) - plantReservoirWater.size())]); //I mean this might work, it might be backwards
+        }
         auto header = text(0, 0)
-            .value("Plant Stats")
+            .value({"Plant water", "Reservoir level"})
+            .color(TFT_GREEN, TFT_BLUE)
             .align(center)
             .valign(vcenter)
             .width(spr.width())
@@ -50,9 +58,9 @@ void Interface::showPlantStatsAll() {
             .width(spr.width() - content.x() * 2)         // actual width of the line chart
             .based_on(0.0)                                // Starting point of y-axis, must be a float
             .show_circle(false)                           // drawing a cirle at each point, default is on.
-            .value(plantTime)                             // passing through the data to line graph
+            .value({plantWaterLevel, plantReservoirWater})                             // passing through the data to line graph
             .max_size(plant_data_max_size)
-            .color(TFT_GREEN)                             // Setting the color for the line
+            .color(TFT_GREEN, TFT_BLUE)                             // Setting the color for the line
             .backgroud(TFT_WHITE)
             .draw(&spr);
     }
