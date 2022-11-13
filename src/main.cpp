@@ -3,6 +3,7 @@
 #include <Plant.h>
 #include <Interface.h>
 #include <Adafruit_APDS9960.h>
+#include "SD/Seeed_SD.h"
 Adafruit_APDS9960 gesture;
 Sleep sleep;
 Plant plant;
@@ -29,11 +30,17 @@ void setup() {
   pinMode(WIO_5S_LEFT, INPUT);
   pinMode(WIO_5S_RIGHT, INPUT);
   pinMode(WIO_5S_PRESS, INPUT);
+  pinMode(LCD_BACKLIGHT, OUTPUT);
   timeStartMillis = millis();
   isAsleep = false;
-  gesture.begin();
+  if (!gesture.begin()) {
+    interface.showError("Gesture Sensor Error");
+  }
   gesture.enableProximity(true);
   gesture.enableGesture(true);
+  if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI)) {
+    interface.showError("SD Card Error");
+  }
 }
 
 char checkInputs(){
@@ -133,6 +140,7 @@ void loop() {
   char input = checkInputs();
   if (input) {
     if (isAsleep) {
+      digitalWrite(LCD_BACKLIGHT, LOW);
       showScreen(currentScreen);
       isAsleep = false;
     }
@@ -211,6 +219,7 @@ void loop() {
     if (sleepTimer <= 60000 && isAsleep == false) {
       sleepTimer++;
     } else {
+      digitalWrite(LCD_BACKLIGHT, HIGH);
       isAsleep = true;
       sleepTimer = 0;
     }

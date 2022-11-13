@@ -12,6 +12,7 @@ class Interface {
         void showSleepStatsAll();
         void showSettingsTrackSleepYN(bool sleepYN, bool plantYN);
         void showSettingsTrackPlantsYN(bool sleepYN, bool plantYN);
+        void showError(String error);
 };
 
 #endif

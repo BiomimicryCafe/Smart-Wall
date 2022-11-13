@@ -18,6 +18,18 @@ Interface::Interface() {
     spr.setRotation(3);
 }
 
+void Interface::showError(String error) {
+    spr.fillSprite(TFT_WHITE);
+    spr.setFreeFont(&FreeMono24pt7b);
+    auto message = text(0, 0)
+        .height(spr.height())
+        .width(spr.width())
+        .value("Error")
+        .align(center)
+        .valign(vcenter)
+        .thickness(4);
+}
+
 void Interface::showPlantStatsAll() {
     spr.fillSprite(TFT_WHITE);
     CSV_Parser cp(/*format*/ "LLLLL", /*has_header*/ true, /*delimiter*/ ',');
@@ -31,7 +43,7 @@ void Interface::showPlantStatsAll() {
         int *plantWaterLevelData = (int*)cp["plantWaterAvg"];
         doubles plantTime;
         doubles plantWaterLevel;
-        doubles plantReservoirWaterData;
+        doubles plantReservoirWater;
         while (plantTime.size() <= plant_data_max_size) {
             plantTime.push(plantTimeData[(sizeof(plantTimeData) - plantTime.size())]); //I mean this might work, it might be backwards
         }
@@ -41,20 +53,32 @@ void Interface::showPlantStatsAll() {
         while (plantReservoirWater.size() <= plant_data_max_size) {
             plantReservoirWater.push(plantReservoirWaterData[(sizeof(plantReservoirWaterData) - plantReservoirWater.size())]); //I mean this might work, it might be backwards
         }
-        auto header = text(0, 0)
-            .value({"Plant water", "Reservoir level"})
-            .color(TFT_GREEN, TFT_BLUE)
+        auto waterHeader = text(0, 0)
+            
+            .value("Plant Water Avg")
+            .color(TFT_GREEN)
             .align(center)
             .valign(vcenter)
-            .width(spr.width())
+            .width(spr.width()/2)
             .thickness(2);
         
-        header.height(header.font_height(&spr) * 2);
-        header.draw(&spr); //headerb height is twice the height of the font
+        waterHeader.height(waterHeader.font_height(&spr) * 2);
+        waterHeader.draw(&spr); //headerb height is twice the height of the font
 
-        auto content = line_chart(20, header.height());
+        auto reservoirHeader = text(waterHeader.width(), 0)
+            .value("Reservoir Level")
+            .color(TFT_BLUE)
+            .align(center)
+            .valign(vcenter)
+            .width(spr.width()/2)
+            .thickness(2);
+        
+        reservoirHeader.height(reservoirHeader.font_height(&spr) * 2);
+        reservoirHeader.draw(&spr); //headerb height is twice the height of the font
+
+        auto content = line_chart(20, waterHeader.height());
         content //x, y where the graph begins
-            .height(spr.height() - header.height() * 1.5) // actual height of the line chart
+            .height(spr.height() - waterHeader.height() * 1.5) // actual height of the line chart
             .width(spr.width() - content.x() * 2)         // actual width of the line chart
             .based_on(0.0)                                // Starting point of y-axis, must be a float
             .show_circle(false)                           // drawing a cirle at each point, default is on.
