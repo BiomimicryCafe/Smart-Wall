@@ -12,6 +12,11 @@ TFT_eSprite spr = TFT_eSprite(&tft);
 #define plant_data_max_size 168 //number of hours in a week
 
 Interface::Interface() {
+    pinMode(WIO_BUZZER, OUTPUT);
+    analogWrite(WIO_BUZZER, 128);
+    delay(100);
+    analogWrite(WIO_BUZZER, 0);
+    delay(1000);
 }
 
 bool Interface::begin() {
@@ -32,6 +37,7 @@ void Interface::showError(String error) {
         .align(center)
         .valign(vcenter)
         .thickness(4);
+    message.draw(&spr);
 }
 
 void Interface::showPlantStatsAll() {
@@ -58,7 +64,6 @@ void Interface::showPlantStatsAll() {
             plantReservoirWater.push(plantReservoirWaterData[(sizeof(plantReservoirWaterData) - plantReservoirWater.size())]); //I mean this might work, it might be backwards
         }
         auto waterHeader = text(0, 0)
-            
             .value("Plant Water Avg")
             .color(TFT_GREEN)
             .align(center)

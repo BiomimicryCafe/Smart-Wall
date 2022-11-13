@@ -5,6 +5,7 @@ class Sleep {
     public:
         Sleep();
         void update();
+        bool begin();
     private:
         bool track;
         int silenceLevel;

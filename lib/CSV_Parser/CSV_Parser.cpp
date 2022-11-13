@@ -1,5 +1,5 @@
 /*  https://github.com/michalmonday/CSV-Parser-for-Arduino  */
-
+#include <Arduino.h>
 #include "CSV_Parser.h"
 #ifndef CSV_PARSER_DONT_IMPORT_SD
   #include <SPI.h>
@@ -7,16 +7,16 @@
   #include "SD/Seeed_SD.h"
 #endif
 
-#define strdup fakestrdup
-char *fakestrdup(const char *c)
-{
-    char *dup = (char*)malloc(strlen(c) + 1);
+// #define strdup fakestrdup
+// char *fakestrdup(const char *c)
+// {
+//     char *dup = (char*)malloc(strlen(c) + 1);
 
-    if (dup != NULL)
-       strcpy(dup, c);
+//     if (dup != NULL)
+//        strcpy(dup, c);
 
-    return dup;
-}
+//     return dup;
+// }
 
 //#include "mem_check.h" // COMMENT-OUT BEFORE UPLOAD
 

@@ -10,17 +10,28 @@
 Adafruit_TSL2591 light = Adafruit_TSL2591(2591);
 Adafruit_SHT4x temp = Adafruit_SHT4x();
 
-Sleep::Sleep() {
-    // pinMode(WIO_MIC, INPUT);
-    // silenceLevel = getSoundLevel();
-    // File file = SD.open("Sleep Data.csv", FILE_WRITE);
-    // file.println("time, temp, light, movement, sound");
-    // file.close();
-    // light.begin();
-    // temp.begin();
-    // temp.setPrecision(SHT4X_MED_PRECISION);
-    // light.setTiming(TSL2591_INTEGRATIONTIME_600MS);
-    // light.setGain(TSL2591_GAIN_MED);
+Sleep::Sleep() {    
+    pinMode(WIO_BUZZER, OUTPUT);
+    analogWrite(WIO_BUZZER, 128);
+    delay(100);
+    analogWrite(WIO_BUZZER, 0);
+    delay(1000);
+}
+
+bool Sleep::begin() {
+
+    pinMode(WIO_MIC, INPUT);
+    silenceLevel = getSoundLevel();
+    SD.begin();
+    File file = SD.open("Sleep Data.csv", FILE_WRITE);
+    file.println("time, temp, light, movement, sound");
+    file.close();
+    light.begin();
+    temp.begin();
+    temp.setPrecision(SHT4X_MED_PRECISION);
+    light.setTiming(TSL2591_INTEGRATIONTIME_600MS);
+    light.setGain(TSL2591_GAIN_MED);
+    return true;
 }
 
 void Sleep::update() {
