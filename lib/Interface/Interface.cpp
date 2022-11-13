@@ -12,10 +12,14 @@ TFT_eSprite spr = TFT_eSprite(&tft);
 #define plant_data_max_size 168 //number of hours in a week
 
 Interface::Interface() {
+}
+
+bool Interface::begin() {
     tft.begin();
     tft.setRotation(3);
     spr.createSprite(TFT_HEIGHT, TFT_WIDTH);
     spr.setRotation(3);
+    return true;
 }
 
 void Interface::showError(String error) {

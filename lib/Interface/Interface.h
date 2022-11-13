@@ -6,6 +6,7 @@
 class Interface {
     public:
         Interface();
+        bool begin();
         void showPlantStatsAll();
         void showPlantControlsWaterInterval(int interval);
         void showPlantControlsDrainage(bool YN);

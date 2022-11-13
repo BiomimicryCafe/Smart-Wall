@@ -63,21 +63,22 @@ int readWater(uint8_t sensor) {
 }
 
 Plant::Plant() {
-    File file = SD.open("Plant Data.csv", FILE_WRITE);
-    file.println("time, reservoirWater, plantWaterAvg, didWater, didDrain");
-    file.close();
-    reservoir.begin(0x36);
-    Wire.begin();
-    changeActiveSensor(0);
-    plant0.begin(0x36);
-    changeActiveSensor(1);
-    plant1.begin(0x36);
-    changeActiveSensor(2);
-    plant2.begin(0x36);
-    changeActiveSensor(3);
-    plant3.begin(0x36);
-    changeActiveSensor(4);
-    plant4.begin(0x36);
+    // File file = SD.open("Plant Data.csv", FILE_WRITE);
+    // file.println("time, reservoirWater, plantWaterAvg, didWater, didDrain");
+    // file.close();
+    // reservoir.begin(0x36);
+    // Wire.begin();
+    // changeActiveSensor(0);
+    // plant0.begin(0x36);
+    // changeActiveSensor(1);
+    // plant1.begin(0x36);
+    // changeActiveSensor(2);
+    // plant2.begin(0x36);
+    // changeActiveSensor(3);
+    // plant3.begin(0x36);
+    // changeActiveSensor(4);
+    // plant4.begin(0x36);
+
     // changeActiveSensor(5);
     // plant5.begin(0x36);
     // changeActiveSensor(6);

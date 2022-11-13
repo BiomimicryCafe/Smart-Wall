@@ -30,9 +30,16 @@ void setup() {
   pinMode(WIO_5S_LEFT, INPUT);
   pinMode(WIO_5S_RIGHT, INPUT);
   pinMode(WIO_5S_PRESS, INPUT);
+  pinMode(WIO_BUZZER, OUTPUT);
   pinMode(LCD_BACKLIGHT, OUTPUT);
+  analogWrite(WIO_BUZZER, 128);
+  delay(100);
+  analogWrite(WIO_BUZZER, 0);
   timeStartMillis = millis();
   isAsleep = false;
+  if (!interface.begin()) {
+    exit(-1);
+  }
   if (!gesture.begin()) {
     interface.showError("Gesture Sensor Error");
   }
@@ -41,6 +48,8 @@ void setup() {
   if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI)) {
     interface.showError("SD Card Error");
   }
+  digitalWrite(LCD_BACKLIGHT, LOW);
+  delay(1000);
 }
 
 char checkInputs(){
@@ -138,7 +147,7 @@ void showScreen(int screen) {
 
 void loop() {
   char input = checkInputs();
-  if (input) {
+  if (input != 'n') {
     if (isAsleep) {
       digitalWrite(LCD_BACKLIGHT, LOW);
       showScreen(currentScreen);
